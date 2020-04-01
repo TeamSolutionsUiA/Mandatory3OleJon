@@ -17,6 +17,11 @@ public class Prim {
     
     private List<Vertex> graph;
 
+    public Prim(List<Vertex> graph) {
+        this.graph = graph;
+    }
+
+     
     public void run() {
         if(graph.size() > 0) {
             graph.get(0).setVisited(true);
@@ -45,5 +50,23 @@ public class Prim {
         }
             return false;
     }
-    
+    public String graphToString(boolean original){
+        StringBuilder sb = new StringBuilder();
+        for(Vertex vertex : graph){
+            if(original)
+                sb.append(vertex.originalToString());
+            else
+                sb.append(vertex.includedToString());
+        }
+        return sb.toString();
+    }
+    public void resetPrintHistory(){
+        for(Vertex vertex : graph){
+            Iterator<Map.Entry<Vertex,Edge>> it = vertex.getEdges().entrySet().iterator();
+            while(it.hasNext()){
+                Map.Entry<Vertex, Edge> pair = it.next();
+                pair.getValue().setIsPrinted(false);
+            }
+        }
+    }
 }

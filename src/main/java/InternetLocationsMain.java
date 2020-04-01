@@ -27,80 +27,58 @@ public class InternetLocationsMain {
         
        // Adding all possible edges to each vertex. connection is going both ways,
        //because it is not directed:
+       // A:
        Edge ab = new Edge(10);
-       Edge ba = new Edge(10);
        a.addEdge(b,ab);
-       b.addEdge(a,ba);
+       b.addEdge(a,ab);
+       Edge ac = new Edge(5);
+       a.addEdge(c,ac);
+       c.addEdge(a,ac);
+       Edge ad = new Edge(9999);
+       a.addEdge(d, ad);
+       d.addEdge(a,ad);
+       Edge ae = new Edge(3);
+       a.addEdge(e, ae);
+       e.addEdge(a, ae);
+       Edge af = new Edge(12);
+       a.addEdge(f, af);
+       f.addEdge(a,af);
+       //B:
        Edge bc = new Edge(17);
-       
+       b.addEdge(c,bc);
+       c.addEdge(b,bc);
+       Edge bd = new Edge(9);
+       b.addEdge(d,bd);
+       d.addEdge(b,bd);
+       Edge be = new Edge(17);
+       b.addEdge(e,be);
+       e.addEdge(b,be);
+       Edge bf = new Edge(12);
+       b.addEdge(f,bf);
+       f.addEdge(b,bf);
+       //C:
+       Edge cd = new Edge(35);
+       c.addEdge(d,cd);
+       d.addEdge(c,cd);
+       Edge ce = new Edge(3);
+       c.addEdge(e,ce);
+       e.addEdge(c,ce);
+       Edge cf = new Edge(12);
+       c.addEdge(f,cf);
+       f.addEdge(c,cf);
+       //D:
+       Edge de = new Edge(9999);
+       d.addEdge(e,de);
+       e.addEdge(d,de);
+       Edge df = new Edge(12);
+       d.addEdge(f, df);
+       f.addEdge(d,df);
+       //E:
+       Edge ef = new Edge(12);
+       e.addEdge(f, ef);
+       f.addEdge(e, ef);
 
-        //to make the graph undirected use the same weight 
-        //both ways 
-        // Every vertex can connect to itself, with the weigth(cost) of 0:
-        //Connect A:
-        /*a.addEdge(new Edge(a, 0));
-
-        a.addEdge(new Edge(b, 10));
-        b.addEdge(new Edge(a, 10));
-
-        a.addEdge(new Edge(c, 5));
-        c.addEdge(new Edge(a, 5));
-
-        a.addEdge(new Edge(d, 9999));
-        d.addEdge(new Edge(a, 9999));
-
-        a.addEdge(new Edge(e, 3));
-        e.addEdge(new Edge(a, 3));
-
-        a.addEdge(new Edge(f, 12));
-        f.addEdge(new Edge(a, 12));
-
-        // Connect B:
-        b.addEdge(new Edge(b, 0));
-
-        b.addEdge(new Edge(c, 17));
-        c.addEdge(new Edge(b, 17));
-
-        b.addEdge(new Edge(d, 9));
-        d.addEdge(new Edge(b, 9));
-
-        b.addEdge(new Edge(e, 17));
-        e.addEdge(new Edge(b, 17));
-
-        b.addEdge(new Edge(f, 12));
-        f.addEdge(new Edge(b, 12));
-
-        // Connect C:
-        c.addEdge(new Edge(c, 0));
-
-        c.addEdge(new Edge(d, 35));
-        d.addEdge(new Edge(c, 35));
-
-        c.addEdge(new Edge(e, 3));
-        e.addEdge(new Edge(c, 3));
-
-        c.addEdge(new Edge(f, 12));
-        f.addEdge(new Edge(c, 12));
-
-        //Connect D:
-        d.addEdge(new Edge(d, 0));
-
-        d.addEdge(new Edge(e, 99));
-        e.addEdge(new Edge(d, 99));
-
-        d.addEdge(new Edge(f, 12));
-        f.addEdge(new Edge(d, 12));
-
-        //Connect E:
-        e.addEdge(new Edge(e, 0));
-
-        e.addEdge(new Edge(f, 12));
-        f.addEdge(new Edge(e, 12));
-
-        //Connect F to itself:
-        f.addEdge(new Edge(f, 0));*/
-
-        //Add all vertices to graph:
+        //Add all vertices to the graph:
         graph.addVertex(a);
         graph.addVertex(b);
         graph.addVertex(c);
@@ -108,11 +86,18 @@ public class InternetLocationsMain {
         graph.addVertex(e);
         graph.addVertex(f);
     
-        // Print all vertices with cost of all possible connections: 
+        // Make new graph based on the original one, and run the prim algorithm 
+        // to get a new graph connected with the minimum total cost.
         List<Vertex> vertices = graph.getVertices();
-        System.out.println("All Vertices with all possible connections: ");
-        for(Vertex vertex : vertices){
-            vertex.print();
+        Prim prim = new Prim(vertices);
+        prim.run();
+        
+        //Print original graph:
+        System.out.print("Original graph:\n" + prim.graphToString(true) + "\n");
+        
+        //Print minimum spanning Tree (minimum cost graph):
+        prim.resetPrintHistory();
+        System.out.print("Minimum spanning Tree:\n" + prim.graphToString(false)); 
+        
         }  
     } 
-}

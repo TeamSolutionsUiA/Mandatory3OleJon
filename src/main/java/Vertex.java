@@ -25,24 +25,65 @@ public class Vertex {
     }
 
     public void addEdge(Vertex vertex, Edge edge){
-        edges.put(vertex, edge);
+        if(this.edges.containsKey(vertex)){
+            if(edge.getWeight() < this.edges.get(vertex).getWeight()){
+                this.edges.replace(vertex, edge);
+            }
+        } else {
+            this.edges.put(vertex, edge);
+        }
     }
     
     public String getLocationName(){
         return locationName;
     }
     
-   /* public void print(){
-        System.out.println("Location " + locationName + " :");
-        System.out.println("All connections possible with connection cost: ");
-        for(Edge edge : edges){
-            Vertex destination = edge.getDestinationPoint();
-            System.out.println("Destination: " + destination.getLocationName() 
-                                + " Connection Cost: " + edge.getWeight());
+    public String originalToString(){
+        StringBuilder sb = new StringBuilder();
+        Iterator<Map.Entry<Vertex,Edge>> it = edges.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<Vertex,Edge> pair = it.next();
+            if (!pair.getValue().isPrinted()) {
+                sb.append("[");
+                sb.append(getLocationName());
+                sb.append(" ");
+                sb.append(pair.getKey().getLocationName());
+                sb.append("] ");
+                sb.append(pair.getValue().getWeight());
+                sb.append("\n");
+                pair.getValue().setIsPrinted(true);
+            }
         }
+        return sb.toString();
     }
-*/
-    
+
+    public String includedToString(){
+        StringBuilder sb = new StringBuilder();
+        if (isVisited()) {
+            Iterator<Map.Entry<Vertex,Edge>> it = edges.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry<Vertex,Edge> pair = it.next();
+                if (pair.getValue().isIncluded()) {
+                    if (!pair.getValue().isPrinted()) {
+                        sb.append("[");
+                        sb.append(getLocationName());
+                        sb.append(" ");
+                        sb.append(pair.getKey().getLocationName());
+                        sb.append("] ");
+                        sb.append(pair.getValue().getWeight());
+                        sb.append("\n");
+                        pair.getValue().setIsPrinted(true);
+                    }
+                }
+            }
+        }
+        return sb.toString();
+    }
+
+    public Map<Vertex, Edge> getEdges() {
+        return edges;
+    }
+
     public void setVisited(boolean isVisited){
         this.isVisited = isVisited;
     }
