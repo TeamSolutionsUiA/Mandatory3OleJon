@@ -1,7 +1,10 @@
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import org.w3c.dom.Node;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -15,15 +18,18 @@ import java.util.Map;
  */
 public class Vertex {
     
-    private final String locationName;
+    private String locationName;
     private Map<Vertex, Edge> edges;
     private boolean isVisited;
+    private List<Vertex> shortestPath = new LinkedList<>();
+    private Integer distance = Integer.MAX_VALUE;
+    //private Map<Node, Integer> adjacentNodes = new HashMap<>(); 
     
     public Vertex(String locationName) {
         this.locationName = locationName;
         edges = new HashMap<>();
     }
-
+   
     public void addEdge(Vertex vertex, Edge edge){
         if(this.edges.containsKey(vertex)){
             if(edge.getWeight() < this.edges.get(vertex).getWeight()){
@@ -34,8 +40,28 @@ public class Vertex {
         }
     }
     
+    public void addDestination(Vertex destination, int distance) {
+        addEdge(destination, new Edge(distance));
+    }
+    
     public String getLocationName(){
         return locationName;
+    }
+
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
+    }
+
+    public List<Vertex> getShortestPath() {
+        return shortestPath;
+    }
+
+    public void setShortestPath(List<Vertex> shortestPath) {
+        this.shortestPath = shortestPath;
     }
     
     public String originalToString(){

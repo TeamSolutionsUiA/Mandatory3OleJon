@@ -29,4 +29,15 @@ public class ConnectionGraph {
     boolean addVertex(Vertex vertex){
         return vertices.add(vertex);
     }
+    public void printShortestPath(){
+        for(Vertex vertex : vertices){
+            System.out.print("\n Shortest path to vertex " + vertex.getLocationName() + ": ");
+            for(Vertex v : vertex.getShortestPath()){
+                System.out.print(v.getLocationName() + " --> ");
+                
+            }
+            System.out.print(vertex.getLocationName() + " distance: "+ vertex.getDistance());
+            
+        }
+    }
 }
