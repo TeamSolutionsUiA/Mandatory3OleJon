@@ -99,5 +99,12 @@ public class InternetLocationsMain {
         prim.resetPrintHistory();
         System.out.print("Minimum spanning Tree:\n" + prim.graphToString(false)); 
         
+        //
+        for(Vertex v : graph.getVertices()) {
+            System.out.println("Source Vertex: " + v.getLocationName());
+            ConnectionGraph shortestPathGraph = Dijkstra.calculateShortestPathFromSource(graph, v );
+            shortestPathGraph.printShortestPath();
+            
         }  
     } 
+}
